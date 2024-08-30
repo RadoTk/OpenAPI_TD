@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: STD23099 - TD5
+  version: '1.0.0'
+servers:
+  - url: https://localhost.std23099.com
+paths:
+  /customers:
+    put:
+      summary: Update all properties of a Customer
+      requestBody:
+        description: Customer object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        200:
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        400:
+          description: Bad Request, invalid input
+        404:
+          description: Customer not found
+    patch:
+      summary: Partially update a Customer
+      parameters:
+        - in: path
+          name: customerId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Partial Customer object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartialCustomer'
+      responses:
+        200:
+          description: Customer partially updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        400:
+          description: Bad Request, invalid input
+        404:
+          description: Customer not found
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the Customer
+        name:
+          type: string
+          description: The name of the Customer
+        age:
+          type: integer
+          description: The age of the Customer
+      required:
+        - id
+        - name
+        - age
+    PartialCustomer:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the Customer
+        name:
+          type: string
+          description: The name of the Customer (optional)
+        age:
+          type: integer
+          description: The age of the Customer (optional)
+      required:
+        - id
